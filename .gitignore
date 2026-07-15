@@ -1,0 +1,38 @@
+# Build directories
+build/
+out/
+cmake-build-*/
+*.user
+
+# vcpkg installed files and build tree
+vcpkg_installed/
+
+# Qt Creator project files
+*.pro.user
+*.qbs.user
+CMakeLists.txt.user
+
+# MSVC artifacts
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.dll
+*.exe
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+install_manifest.txt
+
+# IDE files
+.vs/
+.vscode/
+*.suo
+*.sdf
+
+# macOS
+.DS_Store
