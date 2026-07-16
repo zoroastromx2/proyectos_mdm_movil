@@ -1,5 +1,8 @@
 #include "qgisprojectgenerator.h"
 
+#include <QDebug>
+#include <QStringList>
+
 #include <QDateTime>
 #include <QFileInfo>
 #include <QRandomGenerator>
@@ -207,6 +210,71 @@ bool QgisProjectGenerator::generate(const QString &gpkgPath,
 QByteArray QgisProjectGenerator::buildQgsXml(const QString &gpkgPath,
                                               const QString &projectName)
 {
+
+    qInfo() << "=== GDAL runtime diagnostics ===";
+    qInfo() << "GDAL VersionInfo RELEASE_NAME =" << GDALVersionInfo("RELEASE_NAME");
+    qInfo() << "GDAL VersionInfo VERSION_NUM  =" << GDALVersionInfo("VERSION_NUM");
+    qInfo() << "GDAL_DATA        =" << qEnvironmentVariable("GDAL_DATA");
+    qInfo() << "GDAL_DRIVER_PATH =" << qEnvironmentVariable("GDAL_DRIVER_PATH");
+    qInfo() << "PROJ_LIB         =" << qEnvironmentVariable("PROJ_LIB");
+
+    const QString gpkgPathLocal = gpkgPath; // usa tu variable real
+    qInfo() << "Input gpkgPath   =" << gpkgPathLocal;
+    qInfo() << "File exists?     =" << QFileInfo::exists(gpkgPathLocal);
+
+    GDALAllRegister();
+
+    GDALDriverManager *dm = GetGDALDriverManager();
+    if (!dm) {
+        qWarning() << "GDALDriverManager is null";
+    } else {
+        const int n = dm->GetDriverCount();
+        qInfo() << "Registered GDAL drivers =" << n;
+
+        bool foundGpkg = false;
+        for (int i = 0; i < n; ++i) {
+            GDALDriver *drv = dm->GetDriver(i);
+            if (!drv) continue;
+            const char *name = drv->GetDescription();
+            if (name && QString::fromUtf8(name) == "GPKG") {
+                foundGpkg = true;
+                qInfo() << "Found GPKG driver at index" << i;
+                qInfo() << "GPKG LONGNAME =" << drv->GetMetadataItem(GDAL_DMD_LONGNAME);
+                qInfo() << "GPKG EXTENSION=" << drv->GetMetadataItem(GDAL_DMD_EXTENSION);
+                break;
+            }
+        }
+
+        if (!foundGpkg) {
+            qWarning() << "GPKG driver NOT registered.";
+            qWarning() << "Tip: verify GDAL_DRIVER_PATH, GDAL_DATA, and sqlite/proj/gdal DLL presence.";
+        }
+    }
+
+    // Limpia errores previos y prueba apertura
+    CPLErrorReset();
+
+    GDALDataset *testDs = static_cast<GDALDataset *>(
+        GDALOpenEx(gpkgPathLocal.toUtf8().constData(),
+                   GDAL_OF_VECTOR | GDAL_OF_READONLY,
+                   nullptr, nullptr, nullptr));
+
+    if (!testDs) {
+        const int errType = CPLGetLastErrorType();
+        const int errNo   = CPLGetLastErrorNo();
+        const char *errMsg = CPLGetLastErrorMsg();
+        qWarning() << "GDALOpenEx FAILED"
+                   << "errType=" << errType
+                   << "errNo=" << errNo
+                   << "errMsg=" << (errMsg ? errMsg : "(null)");
+    } else {
+        qInfo() << "GDALOpenEx OK. LayerCount =" << testDs->GetLayerCount();
+        GDALClose(testDs);
+    }
+
+    qInfo() << "=== End GDAL diagnostics ===";
+
+
     // Open the GeoPackage read-only
     GDALDataset *ds = static_cast<GDALDataset *>(
         GDALOpenEx(gpkgPath.toUtf8().constData(),

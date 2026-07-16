@@ -3,6 +3,8 @@
 #include <QQmlContext>
 #include <QQuickStyle>
 
+// Kept intentionally: ensures translation units with QML type registration
+// metadata are linked into the final binary.
 // Pull in the auto-generated registration code produced by qt_add_qml_module
 #include "geomanager.h"
 #include "qgisprojectgenerator.h"
@@ -12,7 +14,7 @@ int main(int argc, char *argv[])
     // High-DPI rendering handled automatically by Qt 6
     QGuiApplication app(argc, argv);
 
-    app.setApplicationName(QStringLiteral("Provectos MDM Móvil"));
+    app.setApplicationName(QStringLiteral("Proyectos MDM Móvil"));
     app.setApplicationVersion(QStringLiteral("0.1.0"));
     app.setOrganizationName(QStringLiteral("MDM"));
 
