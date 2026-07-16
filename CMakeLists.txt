@@ -11,7 +11,7 @@ if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
         CACHE STRING "vcpkg toolchain file")
 endif()
 
-project(provectos_mdm_movil
+project(proyectos_mdm_movil
     VERSION 0.1.0
     DESCRIPTION "GIS tool for GeoPackage management and QGIS project generation"
     LANGUAGES CXX)
@@ -48,7 +48,7 @@ find_package(libzip CONFIG REQUIRED)
 # ---------------------------------------------------------------------------
 # Executable + QML module
 # ---------------------------------------------------------------------------
-qt_add_executable(provectos_mdm_movil
+qt_add_executable(proyectos_mdm_movil
     src/main.cpp
     src/geomanager.cpp
     src/geomanager.h
@@ -56,7 +56,7 @@ qt_add_executable(provectos_mdm_movil
     src/qgisprojectgenerator.h
 )
 
-qt_add_qml_module(provectos_mdm_movil
+qt_add_qml_module(proyectos_mdm_movil
     URI App
     VERSION 1.0
     QML_FILES
@@ -68,12 +68,12 @@ qt_add_qml_module(provectos_mdm_movil
 # ---------------------------------------------------------------------------
 # Include paths for our source
 # ---------------------------------------------------------------------------
-target_include_directories(provectos_mdm_movil PRIVATE src)
+target_include_directories(proyectos_mdm_movil PRIVATE src)
 
 # ---------------------------------------------------------------------------
 # Link libraries
 # ---------------------------------------------------------------------------
-target_link_libraries(provectos_mdm_movil PRIVATE
+target_link_libraries(proyectos_mdm_movil PRIVATE
     Qt6::Core
     Qt6::Gui
     Qt6::Quick
@@ -89,10 +89,10 @@ target_link_libraries(provectos_mdm_movil PRIVATE
 # ---------------------------------------------------------------------------
 if(WIN32)
     # Copy all DLLs that the linker needs at runtime (vcpkg-provided libraries)
-    add_custom_command(TARGET provectos_mdm_movil POST_BUILD
+    add_custom_command(TARGET proyectos_mdm_movil POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                $<TARGET_RUNTIME_DLLS:provectos_mdm_movil>
-                $<TARGET_FILE_DIR:provectos_mdm_movil>
+                $<TARGET_RUNTIME_DLLS:proyectos_mdm_movil>
+                $<TARGET_FILE_DIR:proyectos_mdm_movil>
         COMMAND_EXPAND_LISTS
         COMMENT "Copying runtime DLLs to output directory"
     )
@@ -100,11 +100,11 @@ if(WIN32)
     # Run windeployqt to copy the Qt Quick and QML runtime files
     find_program(WINDEPLOYQT windeployqt HINTS "${Qt6_DIR}/../../../bin")
     if(WINDEPLOYQT)
-        add_custom_command(TARGET provectos_mdm_movil POST_BUILD
+        add_custom_command(TARGET proyectos_mdm_movil POST_BUILD
             COMMAND "${WINDEPLOYQT}"
                     --qmldir "${CMAKE_CURRENT_SOURCE_DIR}/qml"
                     --no-translations
-                    "$<TARGET_FILE:provectos_mdm_movil>"
+                    "$<TARGET_FILE:proyectos_mdm_movil>"
             COMMENT "Running windeployqt"
         )
     endif()
@@ -113,7 +113,7 @@ endif()
 # ---------------------------------------------------------------------------
 # Install rules (optional – useful for packaging)
 # ---------------------------------------------------------------------------
-install(TARGETS provectos_mdm_movil
+install(TARGETS proyectos_mdm_movil
     RUNTIME DESTINATION bin
     BUNDLE  DESTINATION .
 )
