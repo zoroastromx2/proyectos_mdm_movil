@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QString>
 #include <QtQml/qqmlregistration.h>
+#include <qqml.h>
 
 /**
  * @brief QgisProjectGenerator reads a GeoPackage and produces a QGIS 3.40

@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import App 1.0
 
 /**
  * main.qml – Application root window.
@@ -34,7 +35,7 @@ ApplicationWindow {
     // Singleton instances (registered from C++ via QML_SINGLETON)
     // -----------------------------------------------------------------------
     GeoManager          { id: geoManager }
-    QgisProjectGenerator { id: qgisGen }
+    QgisProjectGenerator { id: generator }
 
     // -----------------------------------------------------------------------
     // Status-bar message (shared by both panels via a property)

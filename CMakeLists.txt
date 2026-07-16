@@ -63,6 +63,12 @@ qt_add_qml_module(proyectos_mdm_movil
         qml/main.qml
         qml/GeoPackagePanel.qml
         qml/QgisGeneratorPanel.qml
+    SOURCES
+        src/main.cpp
+        src/qgisprojectgenerator.h
+        src/qgisprojectgenerator.cpp
+        src/geomanager.h
+        src/geomanager.cpp
 )
 
 # ---------------------------------------------------------------------------
