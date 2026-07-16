@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
         },
         Qt::QueuedConnection);
 
-    engine.loadUrl(mainUrl);
+    engine.load(mainUrl);
 
     return app.exec();
 }

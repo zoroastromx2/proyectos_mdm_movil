@@ -92,12 +92,13 @@ void writeWgs84Srs(QXmlStreamWriter &xml)
 void writeLayerSrs(QXmlStreamWriter &xml, OGRLayer *layer)
 {
     xml.writeStartElement(QStringLiteral("srs"));
-    OGRSpatialReference *srs = layer->GetSpatialRef();
+    const OGRSpatialReference *srs = layer->GetSpatialRef();
     if (srs) {
         char *pszWkt  = nullptr;
         char *pszProj = nullptr;
-        srs->exportToWkt(&pszWkt);
-        srs->exportToProj4(&pszProj);
+        OGRSpatialReference srsCopy(*srs);
+        srsCopy.exportToWkt(&pszWkt);
+        srsCopy.exportToProj4(&pszProj);
 
         const char *authName = srs->GetAuthorityName(nullptr);
         const char *authCode = srs->GetAuthorityCode(nullptr);
