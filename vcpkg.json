@@ -4,12 +4,17 @@
   "version": "0.1.0",
   "description": "GIS tool for creating and managing GeoPackage files and QGIS projects",
   "dependencies": [
+  "gdal",
   {
     "name": "gdal",
     "default-features": false,
     "features": ["tools","libspatialite"]
   },
     "libzip",
-    "sqlite3"
+    "sqlite3",
+    "geos",
+    "expat","libxml2",
+    "zlib","zstd",
+    "proj"
   ]
 }
