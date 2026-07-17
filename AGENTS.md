@@ -10,8 +10,8 @@ Desktop GIS utility (C++17 / Qt 6.8.3 QML) that manages GeoPackage files via GDA
 | Qt ≥ 6.5 (tested on 6.8.3) | Core, Gui, Quick, Qml, QuickControls2; Material style hardcoded |
 | CMake ≥ 3.21 | |
 | Ninja | Hardcoded to `D:/Strawberry/c/bin/ninja.exe` in Qt Creator; override with `-DCMAKE_MAKE_PROGRAM=` on other machines |
-| vcpkg | `VCPKG_ROOT` env var must be set; `vcpkg.json` enables GDAL with `tools` + `libspatialite` features, plus libzip and sqlite3 |
-| GDAL runtime | `GDAL_DATA`, `GDAL_DRIVER_PATH`, `PROJ_LIB` are set automatically at startup by `setupGdalEnvironment()` in `main.cpp` — no manual config needed. If already set in the environment, the existing values are preserved (`setIfEmpty`). Values point into `vcpkg_installed/x64-windows/` relative to the executable. |
+| vcpkg | `VCPKG_ROOT` env var must be set; `vcpkg.json` enables GDAL with `tools` + `libspatialite` + `sqlite` features, plus libzip and sqlite3. The `sqlite` feature is required for the GPKG driver — omitting it compiles GDAL without GPKG support. |
+| GDAL runtime | `GDAL_DATA`, `GDAL_DRIVER_PATH`, `PROJ_LIB` are set automatically at startup by `setupGdalEnvironment()` in `main.cpp` — no manual config needed. If already set in the environment, the existing values are preserved (`setIfEmpty`). Values point into `vcpkg_installed/x64-windows/` relative to the executable via `../vcpkg_installed/…` — the exe **must** be run from its own build output directory or these paths resolve incorrectly. |
 
 Use the OSGeo4W Python at `E:\OSGeo4W\apps\Python312\python.exe` — the system Python has no `osgeo` module.
 
