@@ -11,7 +11,7 @@ Desktop GIS utility (C++17 / Qt 6.8.3 QML) that manages GeoPackage files via GDA
 | CMake ≥ 3.21 | |
 | Ninja | Hardcoded to `D:/Strawberry/c/bin/ninja.exe` in Qt Creator; override with `-DCMAKE_MAKE_PROGRAM=` on other machines |
 | vcpkg | `VCPKG_ROOT` env var must be set; `vcpkg.json` enables GDAL with `tools` + `libspatialite` features, plus libzip and sqlite3 |
-| GDAL runtime | `GDAL_DATA`, `GDAL_DRIVER_PATH`, `PROJ_LIB` must be set at runtime or the GPKG driver will not load (app runs but `.qgz` generation silently fails) |
+| GDAL runtime | `GDAL_DATA`, `GDAL_DRIVER_PATH`, `PROJ_LIB` are set automatically at startup by `setupGdalEnvironment()` in `main.cpp` — no manual config needed. If already set in the environment, the existing values are preserved (`setIfEmpty`). Values point into `vcpkg_installed/x64-windows/` relative to the executable. |
 
 Use the OSGeo4W Python at `E:\OSGeo4W\apps\Python312\python.exe` — the system Python has no `osgeo` module.
 
