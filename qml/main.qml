@@ -10,7 +10,7 @@ ApplicationWindow {
     visible: true
     minimumWidth: 900
     minimumHeight: 620
-    title: qsTr("Proyectos MDM Móvil")
+    title: qsTr("Proyectos MDM Móvil 0.0.1")
 
     Material.theme: Material.Light
     Material.accent: Material.Teal
