@@ -25,9 +25,9 @@ static void setupGdalEnvironment()
     // which is one level above appDir (appDir IS the build output dir).
     const QString appDir = QCoreApplication::applicationDirPath();
     const QString vcpkgShare = QDir(appDir).filePath(
-        QStringLiteral("../vcpkg_installed/x64-windows/share"));
+        QStringLiteral("vcpkg_installed/x64-windows/share"));
     const QString vcpkgLib   = QDir(appDir).filePath(
-        QStringLiteral("../vcpkg_installed/x64-windows/lib"));
+        QStringLiteral("vcpkg_installed/x64-windows/lib"));
 
     auto setIfEmpty = [](const char *var, const QString &path) {
         if (qEnvironmentVariableIsEmpty(var)) {
@@ -38,7 +38,7 @@ static void setupGdalEnvironment()
 
     setIfEmpty("GDAL_DATA",        vcpkgShare + QStringLiteral("/gdal"));
     setIfEmpty("GDAL_DRIVER_PATH", vcpkgLib   + QStringLiteral("/gdalplugins"));
-    setIfEmpty("PROJ_LIB",         vcpkgShare + QStringLiteral("/proj4"));
+    setIfEmpty("PROJ_LIB",         vcpkgShare + QStringLiteral("/proj"));
 }
 
 int main(int argc, char *argv[])
