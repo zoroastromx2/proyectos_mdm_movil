@@ -119,7 +119,7 @@ bool GeoManager::reloadLayerNames()
                    nullptr, nullptr, nullptr))};
 
     if (!ds.isValid()) {
-        setLastError(tr("Cannot open GeoPackage: %1").arg(m_activeGpkgPath));
+        setLastError(tr("No se puede abrir el GeoPackage: %1").arg(m_activeGpkgPath));
         return false;
     }
 
@@ -145,11 +145,11 @@ bool GeoManager::createGeoPackage(const QStringList &shpPaths,
                                    const QString     &gpkgPath)
 {
     if (gpkgPath.isEmpty()) {
-        setLastError(tr("Output GeoPackage path is empty."));
+        setLastError(tr("La ruta del GeoPackage está vacía."));
         return false;
     }
     if (shpPaths.isEmpty()) {
-        setLastError(tr("No Shapefile paths provided."));
+        setLastError(tr("No hay ruta del archivo shape."));
         return false;
     }
 
@@ -160,7 +160,7 @@ bool GeoManager::createGeoPackage(const QStringList &shpPaths,
     GDALDriver *gpkgDriver =
         GetGDALDriverManager()->GetDriverByName("GPKG");
     if (!gpkgDriver) {
-        setLastError(tr("GPKG driver not available. Check GDAL installation."));
+        setLastError(tr("El controlador GPKG no está disponible. Checa la instalación del GDAL."));
         setBusy(false);
         return false;
     }
@@ -170,7 +170,7 @@ bool GeoManager::createGeoPackage(const QStringList &shpPaths,
         gpkgPath.toUtf8().constData(), 0, 0, 0, GDT_Unknown, nullptr)};
 
     if (!outDS.isValid()) {
-        setLastError(tr("Failed to create GeoPackage: %1").arg(gpkgPath));
+        setLastError(tr("Falla al crear el GeoPackage: %1").arg(gpkgPath));
         setBusy(false);
         return false;
     }
@@ -184,7 +184,7 @@ bool GeoManager::createGeoPackage(const QStringList &shpPaths,
 
         if (!srcDS.isValid()) {
             // Non-fatal: report and continue with remaining files
-            setLastError(tr("Cannot open Shapefile: %1 – skipped.").arg(shpPath));
+            setLastError(tr("No se puede abrir el archivo shape: %1 – saltado.").arg(shpPath));
             continue;
         }
 
@@ -210,7 +210,7 @@ bool GeoManager::createGeoPackage(const QStringList &shpPaths,
     }
 
     if (!anyImported) {
-        setLastError(tr("No layers were imported into the GeoPackage."));
+        setLastError(tr("No fueron importadas capas dentro del GeoPackage."));
         setBusy(false);
         return false;
     }
@@ -219,14 +219,14 @@ bool GeoManager::createGeoPackage(const QStringList &shpPaths,
     reloadLayerNames();
     setBusy(false);
 
-    emit operationSucceeded(tr("GeoPackage created: %1").arg(gpkgPath));
+    emit operationSucceeded(tr("GeoPackage creado: %1").arg(gpkgPath));
     return true;
 }
 
 bool GeoManager::openGeoPackage(const QString &gpkgPath)
 {
     if (gpkgPath.isEmpty()) {
-        setLastError(tr("GeoPackage path is empty."));
+        setLastError(tr("La ruta del GeoPackage está vacía."));
         return false;
     }
 
@@ -238,18 +238,18 @@ bool GeoManager::openGeoPackage(const QString &gpkgPath)
     setBusy(false);
 
     if (ok)
-        emit operationSucceeded(tr("Opened: %1").arg(gpkgPath));
+        emit operationSucceeded(tr("Abierto: %1").arg(gpkgPath));
     return ok;
 }
 
 bool GeoManager::addLayers(const QStringList &shpPaths)
 {
     if (m_activeGpkgPath.isEmpty()) {
-        setLastError(tr("No GeoPackage is currently open."));
+        setLastError(tr("No hay un GeoPackage abierto actualmente."));
         return false;
     }
     if (shpPaths.isEmpty()) {
-        setLastError(tr("No Shapefile paths provided."));
+        setLastError(tr("No hay ruta para el shape."));
         return false;
     }
 
@@ -262,7 +262,7 @@ bool GeoManager::addLayers(const QStringList &shpPaths)
                    nullptr, nullptr, nullptr))};
 
     if (!outDS.isValid()) {
-        setLastError(tr("Cannot open GeoPackage for editing: %1")
+        setLastError(tr("No se puede abrir el GeoPackage para edición: %1")
                          .arg(m_activeGpkgPath));
         setBusy(false);
         return false;
@@ -276,7 +276,7 @@ bool GeoManager::addLayers(const QStringList &shpPaths)
                        nullptr, nullptr, nullptr))};
 
         if (!srcDS.isValid()) {
-            setLastError(tr("Cannot open Shapefile: %1 – skipped.").arg(shpPath));
+            setLastError(tr("No se puede abrir el shape: %1 – brincado.").arg(shpPath));
             continue;
         }
 
@@ -292,7 +292,7 @@ bool GeoManager::addLayers(const QStringList &shpPaths)
                                        layerName.toUtf8().constData(),
                                        nullptr);
             if (!newLayer) {
-                setLastError(tr("Failed to add layer '%1'.").arg(layerName));
+                setLastError(tr("Hay falla para agregar la capa '%1'.").arg(layerName));
             } else {
                 anyAdded = true;
             }
@@ -303,18 +303,18 @@ bool GeoManager::addLayers(const QStringList &shpPaths)
     setBusy(false);
 
     if (anyAdded)
-        emit operationSucceeded(tr("Layers added successfully."));
+        emit operationSucceeded(tr("Capas agregadas exitósamente."));
     return anyAdded;
 }
 
 bool GeoManager::removeLayer(const QString &layerName)
 {
     if (m_activeGpkgPath.isEmpty()) {
-        setLastError(tr("No GeoPackage is currently open."));
+        setLastError(tr("No hay un GeoPackage abierto actualmente."));
         return false;
     }
     if (layerName.isEmpty()) {
-        setLastError(tr("Layer name is empty."));
+        setLastError(tr("El nombre de la caoa está vacía."));
         return false;
     }
 
@@ -327,7 +327,7 @@ bool GeoManager::removeLayer(const QString &layerName)
                    nullptr, nullptr, nullptr))};
 
     if (!ds.isValid()) {
-        setLastError(tr("Cannot open GeoPackage for editing: %1")
+        setLastError(tr("No se puede abrir el GeoPackage para edición: %1")
                          .arg(m_activeGpkgPath));
         setBusy(false);
         return false;
@@ -344,14 +344,14 @@ bool GeoManager::removeLayer(const QString &layerName)
     }
 
     if (targetIndex < 0) {
-        setLastError(tr("Layer '%1' not found in GeoPackage.").arg(layerName));
+        setLastError(tr("La capa '%1' no se encuentra en el GeoPackage.").arg(layerName));
         setBusy(false);
         return false;
     }
 
     const OGRErr err = ds.get()->DeleteLayer(targetIndex);
     if (err != OGRERR_NONE) {
-        setLastError(tr("Failed to delete layer '%1': GDAL error %2.")
+        setLastError(tr("Fallo al borrar la capa '%1': error en el GDAL %2.")
                          .arg(layerName).arg(static_cast<int>(err)));
         setBusy(false);
         return false;
@@ -360,7 +360,7 @@ bool GeoManager::removeLayer(const QString &layerName)
     reloadLayerNames();
     setBusy(false);
 
-    emit operationSucceeded(tr("Layer '%1' removed.").arg(layerName));
+    emit operationSucceeded(tr("Capa '%1' removida.").arg(layerName));
     return true;
 }
 
