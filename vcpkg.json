@@ -8,13 +8,18 @@
   {
     "name": "gdal",
     "default-features": false,
-    "features": ["tools","libspatialite"]
+    "features": ["tools"]
   },
     "libzip",
     "sqlite3",
     "geos",
-    "expat","libxml2",
+    {
+        "name": "libspatialite",
+        "default-features": false,
+        "features": ["freexl"]
+    },
     "zlib","zstd",
     "proj"
+
   ]
 }
