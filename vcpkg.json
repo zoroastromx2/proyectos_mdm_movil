@@ -21,5 +21,6 @@
     "zlib","zstd",
     "proj"
 
-  ]
+  ],
+  "builtin-baseline": "d6995a0cf3cafda5e9e52749fad075dd62bfd90c"
 }
