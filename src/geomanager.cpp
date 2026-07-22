@@ -1,7 +1,11 @@
 #include "geomanager.h"
 
+#include <QDateTime>
+#include <QDir>
 #include <QFileInfo>
 #include <QUrl>
+#include <QVariantList>
+#include <QVariantMap>
 
 // GDAL / OGR headers
 #include <gdal.h>
@@ -135,6 +139,92 @@ bool GeoManager::reloadLayerNames()
     m_layerNames = names;
     emit layerNamesChanged();
     return true;
+}
+
+// ---------------------------------------------------------------------------
+// GPKG info queries
+// ---------------------------------------------------------------------------
+
+QVariantMap GeoManager::getGpkgFileInfo()
+{
+    QVariantMap info;
+    if (m_activeGpkgPath.isEmpty()) {
+        info["error"] = tr("No hay un GeoPackage abierto.");
+        return info;
+    }
+
+    QFileInfo fi(m_activeGpkgPath);
+    info["path"]         = QDir::toNativeSeparators(m_activeGpkgPath);
+    info["sizeBytes"]    = static_cast<qlonglong>(fi.size());
+    info["lastModified"] = fi.lastModified().toString(Qt::ISODate);
+
+    GdalDatasetGuard ds{static_cast<GDALDataset *>(
+        GDALOpenEx(m_activeGpkgPath.toUtf8().constData(),
+                   GDAL_OF_VECTOR | GDAL_OF_READONLY,
+                   nullptr, nullptr, nullptr))};
+    info["totalLayers"] = ds.isValid()
+        ? static_cast<int>(ds.get()->GetLayerCount()) : 0;
+
+    return info;
+}
+
+QVariantList GeoManager::getAllLayerInfo()
+{
+    QVariantList layers;
+    if (m_activeGpkgPath.isEmpty())
+        return layers;
+
+    GdalDatasetGuard ds{static_cast<GDALDataset *>(
+        GDALOpenEx(m_activeGpkgPath.toUtf8().constData(),
+                   GDAL_OF_VECTOR | GDAL_OF_READONLY,
+                   nullptr, nullptr, nullptr))};
+    if (!ds.isValid())
+        return layers;
+
+    const int count = ds.get()->GetLayerCount();
+    for (int i = 0; i < count; ++i) {
+        OGRLayer *layer = ds.get()->GetLayer(i);
+        if (!layer)
+            continue;
+
+        QVariantMap l;
+        l["name"]         = QString::fromUtf8(layer->GetName());
+        l["featureCount"] = static_cast<qlonglong>(layer->GetFeatureCount(true));
+
+        // Geometry type
+        l["geomType"] = QString::fromUtf8(
+            OGRToOGCGeomType(layer->GetGeomType()));
+
+        // CRS
+        const OGRSpatialReference *srs = layer->GetSpatialRef();
+        if (srs) {
+            const char *authName = srs->GetAuthorityName(nullptr);
+            const char *authCode = srs->GetAuthorityCode(nullptr);
+            if (authName && authCode)
+                l["crsAuth"] = QString::fromUtf8(authName) + QLatin1Char(':')
+                               + QString::fromUtf8(authCode);
+
+            char *pszWkt = nullptr;
+            srs->exportToWkt(&pszWkt);
+            if (pszWkt) {
+                l["crsWkt"] = QString::fromUtf8(pszWkt);
+                CPLFree(pszWkt);
+            }
+        }
+
+        // Extent
+        OGREnvelope env;
+        if (layer->GetExtent(&env, true) == OGRERR_NONE) {
+            l["minX"] = env.MinX;
+            l["minY"] = env.MinY;
+            l["maxX"] = env.MaxX;
+            l["maxY"] = env.MaxY;
+        }
+
+        layers.append(l);
+    }
+
+    return layers;
 }
 
 // ---------------------------------------------------------------------------

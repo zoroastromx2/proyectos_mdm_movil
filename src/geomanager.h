@@ -3,6 +3,8 @@
 #include <QObject>
 #include <QString>
 #include <QStringList>
+#include <QVariantList>
+#include <QVariantMap>
 #include <QtQml/qqmlregistration.h>
 
 /**
@@ -79,6 +81,19 @@ public:
      *        returned by QML's FileDialog so GDAL can open it directly.
      */
     Q_INVOKABLE static QString urlToPath(const QString &urlString);
+
+    /**
+     * @brief Return file-level metadata about the active GPKG as a map.
+     *        Keys: path, sizeBytes, lastModified, totalLayers.
+     */
+    Q_INVOKABLE QVariantMap getGpkgFileInfo();
+
+    /**
+     * @brief Return detailed info for every layer in the active GPKG.
+     *        Each entry is a map with keys: name, geomType, featureCount,
+     *        crsAuth, crsWkt, minX, minY, maxX, maxY.
+     */
+    Q_INVOKABLE QVariantList getAllLayerInfo();
 
     /**
      * @brief Convert a list of QUrl strings to plain paths (convenience helper).

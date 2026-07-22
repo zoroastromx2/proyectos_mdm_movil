@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
+import App 1.0
 
 /**
  * GeoPackagePanel.qml
@@ -103,6 +104,12 @@ Item {
         }
 
         onAccepted: root.geoMgr.removeLayer(confirmDeleteDialog.layerName)
+    }
+
+    // GPKG viewer dialog
+    GpkgViewerDialog {
+        id: viewerDialog
+        geoMgr: root.geoMgr
     }
 
     // -----------------------------------------------------------------------
@@ -214,6 +221,14 @@ Item {
                     flat: true
                     enabled: root.geoMgr.activeGpkgPath.length > 0
                     onClicked: root.geoMgr.refreshLayers()
+                }
+
+                Button {
+                    text: qsTr("Visualizar")
+                    enabled: root.geoMgr.activeGpkgPath.length > 0
+                    Material.background: Material.Teal
+                    Material.foreground: "white"
+                    onClicked: viewerDialog.open()
                 }
             }
         }

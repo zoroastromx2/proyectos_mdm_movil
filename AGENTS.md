@@ -44,6 +44,7 @@ There are zero automated tests, no CI pipeline, no `.clang-format`, no pre-commi
 - `src/qgisprojectgenerator.h/.cpp` — `.qgz` generation (ZIP + QGIS 3.40 XML), registered to QML as `QML_ELEMENT`.
 - `qml/main.qml` — root `ApplicationWindow`; instantiates both C++ types inline (`GeoManager { id: geoManager }`) and passes them to panels via property binding.
 - `qml/GeoPackagePanel.qml` — CRUD UI (~342 lines); receives `required property var geoMgr` (weakly typed).
+- `qml/GpkgViewerDialog.qml` — viewer dialog with layer table and file info; receives `required property GeoManager geoMgr` (strongly typed — must `import App 1.0`).
 - `qml/QgisGeneratorPanel.qml` — generator UI (~93 lines); receives `required property GeoManager geoMgr` and `required property QgisProjectGenerator qgisMgr` (strongly typed — must `import App 1.0`).
 - QML module URI is `App` 1.0; the main QML resource path is `"qrc:/App/qml/main.qml"` — if the URI changes, this path must change too.
 - `main.cpp` includes both backend headers only to force linking of auto-generated QML registration TUs. **Do not remove these includes.**

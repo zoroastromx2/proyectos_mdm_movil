@@ -62,6 +62,7 @@ qt_add_qml_module(proyectos_mdm_movil
     QML_FILES
         qml/main.qml
         qml/GeoPackagePanel.qml
+        qml/GpkgViewerDialog.qml
         qml/QgisGeneratorPanel.qml
     SOURCES
         src/main.cpp
