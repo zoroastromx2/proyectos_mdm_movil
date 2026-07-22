@@ -1,26 +1,26 @@
 {
-  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
-  "name": "proyectos-mdm-movil",
-  "version": "0.1.0",
-  "description": "GIS tool for creating and managing GeoPackage files and QGIS projects",
-  "dependencies": [
-  "gdal",
+"$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+"name": "proyectos-mdm-movil",
+"version": "0.1.0",
+"description": "GIS tool for creating and managing GeoPackage files and QGIS projects",
+"dependencies": [
   {
     "name": "gdal",
-    "default-features": false,
+    "default-features": true,
     "features": ["tools"]
   },
-    "libzip",
-    "sqlite3",
-    "geos",
-    {
-        "name": "libspatialite",
-        "default-features": false,
-        "features": ["freexl"]
-    },
-    "zlib","zstd",
-    "proj"
-
-  ],
-  "builtin-baseline": "d6995a0cf3cafda5e9e52749fad075dd62bfd90c"
+  "libzip",
+  "sqlite3",
+  "geos",
+  {
+    "name": "libspatialite",
+    "default-features": false,
+    "features": ["freexl"]
+  },
+  "zlib",
+  "zstd",
+  "proj"
+],
+"builtin-baseline": "d6995a0cf3cafda5e9e52749fad075dd62bfd90c"
 }
+

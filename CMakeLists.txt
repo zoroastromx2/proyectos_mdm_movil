@@ -38,7 +38,7 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS Core Gui Quick Qml QuickControls2)
 # ---------------------------------------------------------------------------
 # GDAL (installed via vcpkg)
 # ---------------------------------------------------------------------------
-find_package(GDAL REQUIRED)
+find_package(GDAL CONFIG REQUIRED)
 
 # ---------------------------------------------------------------------------
 # libzip (installed via vcpkg)
@@ -79,7 +79,7 @@ target_include_directories(proyectos_mdm_movil PRIVATE src)
 # ---------------------------------------------------------------------------
 # Link libraries
 # ---------------------------------------------------------------------------
-target_link_libraries(proyectos_mdm_movil PRIVATE
+target_link_libraries(proyectos_mdm_movil PUBLIC
     Qt6::Core
     Qt6::Gui
     Qt6::Quick
