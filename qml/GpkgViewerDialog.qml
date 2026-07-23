@@ -38,7 +38,6 @@ Dialog {
                 columnSpacing: 16
                 rowSpacing: 6
                 Layout.fillWidth: true
-                Layout.fillHeight: true
 
                 Label { text: qsTr("Ruta:"); font.weight: Font.Medium }
                 Label {
@@ -77,31 +76,40 @@ Dialog {
                     Layout.fillWidth: true
                     spacing: 4
 
-                    Repeater {
-                        model: [
-                            { label: qsTr("Nombre"),     width: 0.30 },
-                            { label: qsTr("Tipo"),       width: 0.14 },
-                            { label: qsTr("CRS"),        width: 0.20 },
-                            { label: qsTr("Features"),  width: 0.10 },
-                            { label: qsTr("Extensión"),  width: 0.26 }
-                        ]
-                        delegate: Rectangle {
-                            required property var modelData
-                            implicitWidth: parent.width * modelData.width
-                            height: 28
-                            color: Material.color(Material.Grey, Material.Shade200)
-                            radius: 2
-
-                            Label {
-                                anchors.fill: parent
-                                anchors.leftMargin: 6
-                                text: modelData.label
-                                font.pixelSize: 12
-                                font.weight: Font.Medium
-                                verticalAlignment: Text.AlignVCenter
-                                elide: Text.ElideRight
-                            }
-                        }
+                    Rectangle {
+                        Layout.fillWidth: true; Layout.preferredWidth: 30
+                        height: 28
+                        color: Material.color(Material.Grey, Material.Shade200)
+                        radius: 2
+                        Label { anchors.fill: parent; anchors.leftMargin: 6; text: qsTr("Nombre"); font.pixelSize: 12; font.weight: Font.Medium; verticalAlignment: Text.AlignVCenter; elide: Text.ElideRight }
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true; Layout.preferredWidth: 14
+                        height: 28
+                        color: Material.color(Material.Grey, Material.Shade200)
+                        radius: 2
+                        Label { anchors.fill: parent; anchors.leftMargin: 6; text: qsTr("Tipo"); font.pixelSize: 12; font.weight: Font.Medium; verticalAlignment: Text.AlignVCenter; elide: Text.ElideRight }
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true; Layout.preferredWidth: 20
+                        height: 28
+                        color: Material.color(Material.Grey, Material.Shade200)
+                        radius: 2
+                        Label { anchors.fill: parent; anchors.leftMargin: 6; text: qsTr("CRS"); font.pixelSize: 12; font.weight: Font.Medium; verticalAlignment: Text.AlignVCenter; elide: Text.ElideRight }
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true; Layout.preferredWidth: 10
+                        height: 28
+                        color: Material.color(Material.Grey, Material.Shade200)
+                        radius: 2
+                        Label { anchors.fill: parent; anchors.leftMargin: 6; text: qsTr("Features"); font.pixelSize: 12; font.weight: Font.Medium; verticalAlignment: Text.AlignVCenter; elide: Text.ElideRight }
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true; Layout.preferredWidth: 26
+                        height: 28
+                        color: Material.color(Material.Grey, Material.Shade200)
+                        radius: 2
+                        Label { anchors.fill: parent; anchors.leftMargin: 6; text: qsTr("Extensión"); font.pixelSize: 12; font.weight: Font.Medium; verticalAlignment: Text.AlignVCenter; elide: Text.ElideRight }
                     }
                 }
 
@@ -159,7 +167,7 @@ Dialog {
                             Label {
                                 text: layerRow.modelData.minX !== undefined
                                       ? qsTr("%1, %2").arg(
-                                            Number(layerRow.modelData.minX).toLocaleString(undefined, 'fixed', 2),
+                                            Number(layerRow.modelData.minX).toLocaleString(undefined, 'fixed', 2)).arg(
                                             Number(layerRow.modelData.minY).toLocaleString(undefined, 'fixed', 2))
                                       : ""
                                 Layout.preferredWidth: parent.width * 0.26
