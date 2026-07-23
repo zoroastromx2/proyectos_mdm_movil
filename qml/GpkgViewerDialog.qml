@@ -77,35 +77,35 @@ Dialog {
                     spacing: 4
 
                     Rectangle {
-                        Layout.fillWidth: true; Layout.preferredWidth: 30
+                        Layout.fillWidth: true; Layout.preferredWidth: 100
                         height: 28
                         color: Material.color(Material.Grey, Material.Shade200)
                         radius: 2
                         Label { anchors.fill: parent; anchors.leftMargin: 6; text: qsTr("Nombre"); font.pixelSize: 12; font.weight: Font.Medium; verticalAlignment: Text.AlignVCenter; elide: Text.ElideRight }
                     }
                     Rectangle {
-                        Layout.fillWidth: true; Layout.preferredWidth: 14
+                        Layout.fillWidth: true; Layout.preferredWidth: 120
                         height: 28
                         color: Material.color(Material.Grey, Material.Shade200)
                         radius: 2
                         Label { anchors.fill: parent; anchors.leftMargin: 6; text: qsTr("Tipo"); font.pixelSize: 12; font.weight: Font.Medium; verticalAlignment: Text.AlignVCenter; elide: Text.ElideRight }
                     }
                     Rectangle {
-                        Layout.fillWidth: true; Layout.preferredWidth: 20
+                        Layout.fillWidth: true; Layout.preferredWidth: 100
                         height: 28
                         color: Material.color(Material.Grey, Material.Shade200)
                         radius: 2
                         Label { anchors.fill: parent; anchors.leftMargin: 6; text: qsTr("CRS"); font.pixelSize: 12; font.weight: Font.Medium; verticalAlignment: Text.AlignVCenter; elide: Text.ElideRight }
                     }
                     Rectangle {
-                        Layout.fillWidth: true; Layout.preferredWidth: 10
+                        Layout.fillWidth: true; Layout.preferredWidth: 100
                         height: 28
                         color: Material.color(Material.Grey, Material.Shade200)
                         radius: 2
                         Label { anchors.fill: parent; anchors.leftMargin: 6; text: qsTr("Features"); font.pixelSize: 12; font.weight: Font.Medium; verticalAlignment: Text.AlignVCenter; elide: Text.ElideRight }
                     }
                     Rectangle {
-                        Layout.fillWidth: true; Layout.preferredWidth: 26
+                        Layout.fillWidth: true; Layout.preferredWidth: 100
                         height: 28
                         color: Material.color(Material.Grey, Material.Shade200)
                         radius: 2
@@ -137,21 +137,24 @@ Dialog {
 
                             Label {
                                 text: layerRow.modelData.name || ""
-                                Layout.preferredWidth: parent.width * 0.30
+                               // Layout.preferredWidth: parent.width * 0.30
+                                Layout.fillWidth: true; Layout.preferredWidth: 30
                                 font.pixelSize: 12
                                 elide: Text.ElideRight
                                 verticalAlignment: Text.AlignVCenter
                             }
                             Label {
                                 text: layerRow.modelData.geomType || ""
-                                Layout.preferredWidth: parent.width * 0.14
+                                //Layout.preferredWidth: parent.width * 0.14
+                                Layout.fillWidth: true; Layout.preferredWidth: 14
                                 font.pixelSize: 12
                                 elide: Text.ElideRight
                                 verticalAlignment: Text.AlignVCenter
                             }
                             Label {
                                 text: layerRow.modelData.crsAuth || ""
-                                Layout.preferredWidth: parent.width * 0.20
+                                //Layout.preferredWidth: parent.width * 0.20
+                                Layout.fillWidth: true; Layout.preferredWidth: 20
                                 font.pixelSize: 12
                                 elide: Text.ElideRight
                                 verticalAlignment: Text.AlignVCenter
@@ -159,7 +162,8 @@ Dialog {
                             Label {
                                 text: layerRow.modelData.featureCount
                                       ? Number(layerRow.modelData.featureCount).toLocaleString() : "0"
-                                Layout.preferredWidth: parent.width * 0.10
+                                //Layout.preferredWidth: parent.width * 0.10
+                                Layout.fillWidth: true; Layout.preferredWidth: 10
                                 font.pixelSize: 12
                                 horizontalAlignment: Text.AlignRight
                                 verticalAlignment: Text.AlignVCenter
@@ -170,7 +174,8 @@ Dialog {
                                             Number(layerRow.modelData.minX).toLocaleString(undefined, 'fixed', 2)).arg(
                                             Number(layerRow.modelData.minY).toLocaleString(undefined, 'fixed', 2))
                                       : ""
-                                Layout.preferredWidth: parent.width * 0.26
+                                //Layout.preferredWidth: parent.width * 0.26
+                                Layout.fillWidth: true; Layout.preferredWidth: 26
                                 font.pixelSize: 11
                                 elide: Text.ElideRight
                                 verticalAlignment: Text.AlignVCenter
